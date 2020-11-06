@@ -22,4 +22,5 @@ public class PaymentController {
         Ticket ticket = ticketService.getTicketById(ticketId);
         return ticket;
     }
+
 }
