@@ -1,3 +1,4 @@
+/*
 package kz.iitu.paymentservice;
 
 import lombok.RequiredArgsConstructor;
@@ -26,3 +27,4 @@ public class UserService {
         return userRepository.save(user);
     }
 }
+*/

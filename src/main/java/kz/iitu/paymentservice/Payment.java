@@ -28,6 +28,6 @@ public class Payment {
             joinColumns = {@JoinColumn(name = "payment_id", referencedColumnName = "payment_id")},
             inverseJoinColumns = {@JoinColumn(name = "ticket_id", referencedColumnName = "id")}
     )
-    private List<Ticket> movies = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
 
 }

@@ -24,11 +24,10 @@ import java.util.List;
 @EnableHystrixDashboard
 public class TicketService {
 
-    @Autowired
     private RestTemplate restTemplate;
 
     private PaymentRepository paymentRepository;
-    private UserRepository userRepository;
+    /*private UserRepository userRepository;*/
 
     public Payment getPayment(String id) {
 
@@ -48,13 +47,13 @@ public class TicketService {
             })
     public Payment createPayment(Payment order) {
         Payment payment = new Payment();
-        if (!userRepository.existsById(order.getUser().getId())) {
+        /*if (!userRepository.existsById(order.getUser().getId())) {
             throw new RuntimeException("There is no user with such id");
-        }
-        payment.setUser(userRepository.findById(order.getUser().getId()).get());
-        for (Ticket ticket : order.getMovies()) {
+        }*/
+        /*payment.setUser(userRepository.findById(order.getUser().getId()).get());*/
+        for (Ticket ticket : order.getTickets()) {
             Ticket existingMovie = restTemplate.getForObject("http://ticket-service/ticket/" + ticket.getId(), Ticket.class);
-            payment.getMovies().add(existingMovie);
+            payment.getTickets().add(existingMovie);
         }
         return paymentRepository.save(payment);
     }

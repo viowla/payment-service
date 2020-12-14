@@ -21,7 +21,7 @@ public class Ticket {
     private double cost;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "order_movies",
+    @JoinTable(name = "ticket_movie",
             joinColumns = {@JoinColumn(name = "ticket_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")}
     )

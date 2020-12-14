@@ -1,3 +1,4 @@
+/*
 package kz.iitu.paymentservice;
 
 import lombok.Getter;
@@ -17,3 +18,4 @@ public class UserTicket {
         this.userTickets = userTickets;
     }
 }
+*/
