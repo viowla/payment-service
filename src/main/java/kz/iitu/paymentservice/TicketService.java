@@ -24,19 +24,30 @@ import java.util.List;
 @EnableHystrixDashboard
 public class TicketService {
 
+    @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
     private PaymentRepository paymentRepository;
     /*private UserRepository userRepository;*/
 
+    @HystrixCommand(fallbackMethod = "getPayment",
+            threadPoolKey = "getPaymentPool",
+            threadPoolProperties = {
+                    @HystrixProperty(name="coreSize", value="20"),
+                    @HystrixProperty(name="maxQueueSize", value="10"),
+            })
     public Payment getPayment(String id) {
 
-        if (!paymentRepository.existsById(id)) {
-            throw new RuntimeException("There is no order with such id");
-        }
+        String apiCredentials = "rest-client:p@ssword";
+        String base64Credentials = new String(Base64.encodeBase64(apiCredentials.getBytes()));
 
-        return paymentRepository.findById(id).get();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + base64Credentials);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        return restTemplate.exchange("http://payment-service/id/"+id, HttpMethod.GET, entity,Payment.class).getBody();
 
+        //return paymentRepository.findById(id).get();
     }
 
     @HystrixCommand(fallbackMethod = "createPayment",
@@ -47,14 +58,6 @@ public class TicketService {
             })
     public Payment createPayment(Payment order) {
         Payment payment = new Payment();
-        /*if (!userRepository.existsById(order.getUser().getId())) {
-            throw new RuntimeException("There is no user with such id");
-        }*/
-        /*payment.setUser(userRepository.findById(order.getUser().getId()).get());*/
-        for (Ticket ticket : order.getTickets()) {
-            Ticket existingMovie = restTemplate.getForObject("http://ticket-service/ticket/" + ticket.getId(), Ticket.class);
-            payment.getTickets().add(existingMovie);
-        }
         return paymentRepository.save(payment);
     }
 

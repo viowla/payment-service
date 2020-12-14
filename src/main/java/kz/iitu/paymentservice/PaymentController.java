@@ -1,5 +1,7 @@
 package kz.iitu.paymentservice;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,9 @@ import java.util.List;
 @CrossOrigin("*")
 public class PaymentController {
 
+    @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
     private TicketService ticketService;
 
     @GetMapping("/payment/{id}")
