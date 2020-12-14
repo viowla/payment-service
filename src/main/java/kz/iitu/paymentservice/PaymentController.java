@@ -1,26 +1,35 @@
 package kz.iitu.paymentservice;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/payment/api")
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class PaymentController {
 
-
-    @Autowired
+    private PaymentRepository paymentRepository;
     private TicketService ticketService;
 
-    @GetMapping("/tickets/{ticketId}")
-    public Ticket getTicketBuId(@PathVariable String ticketId) {
-        Ticket ticket = ticketService.getTicketById(ticketId);
-        return ticket;
+    @GetMapping("/payment/{id}")
+    public ResponseEntity<Payment> getPayment(@PathVariable String id) {
+        return new ResponseEntity<>(ticketService.getPayment(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/payment/all")
+    public ResponseEntity<List<Payment>> getAllPayments() {
+        return new ResponseEntity<>(paymentRepository.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping("/payment/create")
+    public ResponseEntity<Payment> createPayment(@RequestBody Payment order) {
+        return new ResponseEntity<>(ticketService.createPayment(order), HttpStatus.CREATED);
     }
 
 }

@@ -1,20 +1,33 @@
 package kz.iitu.paymentservice;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "payment")
+@Data
+@NoArgsConstructor
 public class Payment {
 
-    private double cost;
-    private String userName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
-    public Payment() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public Payment(double cost, String userName) {
-        this.cost = cost;
-        this.userName = userName;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "order_tickets",
+            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "ticket_id", referencedColumnName = "id")}
+    )
+    private List<Ticket> movies = new ArrayList<>();
+
 }
