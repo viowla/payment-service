@@ -18,13 +18,8 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+    @Column(name = "cost")
     private double cost;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ticket_movie",
-            joinColumns = {@JoinColumn(name = "ticket_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")}
-    )
-    private List<Movie> movies = new ArrayList<>();
 
 }

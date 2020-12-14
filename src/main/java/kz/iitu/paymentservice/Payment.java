@@ -1,9 +1,7 @@
 package kz.iitu.paymentservice;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,11 +21,12 @@ public class Payment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "payment_tickets",
-            joinColumns = {@JoinColumn(name = "payment_id", referencedColumnName = "payment_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ticket_id", referencedColumnName = "id")}
-    )
-    private List<Ticket> tickets = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
+
+    @OneToOne
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
 
 }
