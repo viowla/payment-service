@@ -57,8 +57,8 @@ public class TicketService {
                     @HystrixProperty(name="maxQueueSize", value="10"),
             })
     public Payment createPayment(Payment order) {
-        Payment payment = new Payment();
-        return paymentRepository.save(payment);
+
+        return paymentRepository.save(order);
     }
 
     public Payment pay(String id) {

@@ -23,7 +23,7 @@ public class PaymentController {
 
     @GetMapping("/payment/{id}")
     public ResponseEntity<Payment> getPayment(@PathVariable String id) {
-        return new ResponseEntity<>(ticketService.getPayment(id), HttpStatus.OK);
+        return new ResponseEntity<>(ticketService.pay(id), HttpStatus.OK);
     }
 
     @GetMapping("/payment/all")
